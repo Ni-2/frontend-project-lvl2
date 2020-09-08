@@ -1,0 +1,29 @@
+{
+  "name": "frontend-project-lvl2",
+  "version": "1.0.0",
+  "description": "Hexlet project #2 \"Difference generator\"",
+  "main": "bin/gendiff.js",
+  "type": "module",
+  "dependencies": {
+    "commander": "^6.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ni-2/frontend-project-lvl2.git"
+  },
+  "keywords": [
+    "hexlet",
+    "study",
+    "project"
+  ],
+  "author": "Nikita Teremovskii",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ni-2/frontend-project-lvl2/issues"
+  },
+  "homepage": "https://github.com/Ni-2/frontend-project-lvl2#readme"
+}
