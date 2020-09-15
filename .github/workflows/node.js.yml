@@ -35,3 +35,7 @@ jobs:
       # Run Linter
       run: |
         make lint
+    - name: Run tests
+      # Run tests through Jest
+      run: |
+        make test
