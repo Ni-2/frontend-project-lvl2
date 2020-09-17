@@ -1,12 +1,13 @@
 import fs from 'fs';
 import _ from 'lodash';
 import path from 'path';
+import parsers from './parsers.js';
 
 const getData = (filename) => {
   const absoluteFilename = path.resolve(process.cwd(), filename);
-  const dataJson = fs.readFileSync(absoluteFilename);
-  const parsedJson = JSON.parse(dataJson);
-  return parsedJson;
+  const data = fs.readFileSync(absoluteFilename);
+  const parse = parsers(filename);
+  return parse(data);
 };
 
 export default (filename1, filename2) => {

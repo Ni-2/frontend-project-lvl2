@@ -11,4 +11,8 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 test('gendiff', () => {
   expect(gendiff(getFixturePath('file1.json'), getFixturePath('file2.json')))
     .toEqual('- follow: false\n  host: hexlet.io\n- proxy: 123.234.53.22\n- timeout: 50\n+ timeout: 20\n+ verbose: true');
+  expect(gendiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml')))
+    .toEqual('- follow: false\n  host: hexlet.io\n- proxy: 123.234.53.22\n- timeout: 50\n+ timeout: 20\n+ verbose: true');
+  expect(() => gendiff(getFixturePath('file1'), getFixturePath('file2.yaml')))
+    .toThrow();
 });
