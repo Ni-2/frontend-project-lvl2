@@ -12,3 +12,7 @@ The second project of Frontend-developer profession in Hexlet
 
 ## Generate difference of YAML files.
 [![asciicast](https://asciinema.org/a/YtabF1oE0UgdiBuzFIc5N1WlH.svg)](https://asciinema.org/a/YtabF1oE0UgdiBuzFIc5N1WlH)
+
+
+## Generate difference of INI files.
+[![asciicast](https://asciinema.org/a/p2UEVGp2Pi69zwd4j7dtTaVRm.svg)](https://asciinema.org/a/p2UEVGp2Pi69zwd4j7dtTaVRm)
