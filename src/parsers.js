@@ -1,5 +1,6 @@
 import path from 'path';
 import yaml from 'js-yaml';
+import ini from 'ini';
 
 export default (filename) => {
   switch (path.extname(filename)) {
@@ -7,6 +8,8 @@ export default (filename) => {
       return JSON.parse;
     case '.yaml':
       return yaml.safeLoad;
+    case '.ini':
+      return ini.parse;
     default:
       throw new Error(`Invalid extension of '${filename}'.`);
   }

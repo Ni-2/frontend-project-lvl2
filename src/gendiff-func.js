@@ -5,7 +5,7 @@ import parsers from './parsers.js';
 
 const getData = (filename) => {
   const absoluteFilename = path.resolve(process.cwd(), filename);
-  const data = fs.readFileSync(absoluteFilename);
+  const data = fs.readFileSync(absoluteFilename, 'utf-8');
   const parse = parsers(filename);
   return parse(data);
 };
