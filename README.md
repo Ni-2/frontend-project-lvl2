@@ -16,3 +16,7 @@ The second project of Frontend-developer profession in Hexlet
 
 ## Generate difference of INI files.
 [![asciicast](https://asciinema.org/a/p2UEVGp2Pi69zwd4j7dtTaVRm.svg)](https://asciinema.org/a/p2UEVGp2Pi69zwd4j7dtTaVRm)
+
+
+## Generate difference of JSON files recursively.
+[![asciicast](https://asciinema.org/a/CEgnUamzXyO8gTiqFRkaAeNSS.svg)](https://asciinema.org/a/CEgnUamzXyO8gTiqFRkaAeNSS)
