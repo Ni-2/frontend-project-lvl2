@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
 import gendiff from '../src/gendiff-func.js';
+import stylish from '../src/stylish.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,17 +17,17 @@ beforeAll(() => {
 });
 
 test('genFlatDiff', () => {
-  expect(gendiff(getFixturePath('file1.json'), getFixturePath('file2.json')))
+  expect(stylish(gendiff(getFixturePath('file1.json'), getFixturePath('file2.json'))))
     .toEqual(expectedFlatDiff);
-  expect(gendiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml')))
+  expect(stylish(gendiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'))))
     .toEqual(expectedFlatDiff);
-  expect(gendiff(getFixturePath('file1.ini'), getFixturePath('file2.ini')))
+  expect(stylish(gendiff(getFixturePath('file1.ini'), getFixturePath('file2.ini'))))
     .toEqual(expectedFlatDiff);
-  expect(() => gendiff(getFixturePath('file1'), getFixturePath('file2.yaml')))
+  expect(() => stylish(gendiff(getFixturePath('file1'), getFixturePath('file2.yaml'))))
     .toThrow();
 });
 
 test('genDeepDiff', () => {
-  expect(gendiff(getFixturePath('file3.json'), getFixturePath('file4.json')))
+  expect(stylish(gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'))))
     .toEqual(expectedDeepDiff);
 });
