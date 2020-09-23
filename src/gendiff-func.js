@@ -1,5 +1,4 @@
 import fs from 'fs';
-import _ from 'lodash';
 import path from 'path';
 import parsers from './parsers.js';
 
@@ -11,17 +10,27 @@ const getData = (filename) => {
 };
 
 const difference = (data1, data2) => {
-  const allKeys = _.union(Object.keys(data1), Object.keys(data2)).sort();
-  const diff = allKeys.reduce((acc, key) => {
+  const allKeys = Object.keys(data1).concat(Object.keys(data2))
+    .reduce((acc, val) => {
+      if (!acc.includes(val)) acc.push(val);
+      return acc;
+    }, []).sort();
+  return allKeys.reduce((acc, key) => {
     if (typeof data1[key] === 'object' && typeof data2[key] === 'object') {
       acc[key] = difference(data1[key], data2[key]);
       return acc;
     }
     const hasGDChange = data1[key] !== data2[key];
-    acc[key] = hasGDChange ? { value1: data1[key], value2: data2[key], hasGDChange } : { value: data1[key], hasGDChange };
+    acc[key] = { hasGDChange };
+    if (hasGDChange && Object.prototype.hasOwnProperty.call(data1, key)) {
+      acc[key].value1 = data1[key];
+    }
+    if (hasGDChange && Object.prototype.hasOwnProperty.call(data2, key)) {
+      acc[key].value2 = data2[key];
+    }
+    if (!hasGDChange) acc[key].value = data1[key];
     return acc;
   }, {});
-  return diff;
 };
 
 export default (filename1, filename2) => {

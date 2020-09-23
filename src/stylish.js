@@ -1,24 +1,34 @@
-import _ from 'lodash';
+const genStr = (key, value, depth) => {
+  const valObj = () => Object.entries(value)
+    .map(([k, v]) => genStr(k, v, depth + 2))
+    .join(`\n${'  '.repeat(depth + 1)}`);
+
+  const newValue = typeof value === 'object'
+    ? `{
+${'  '.repeat(depth)}  ${valObj()}
+${'  '.repeat(depth - 1)}}`
+    : value;
+  return `${key}: ${newValue}`;
+};
 
 const formatter = (diff, depth = 1) => {
-  const genStr = (key, value, d = depth) => {
-    return `${key}: ${typeof value === 'object'
-      ? `{\n${'  '.repeat(d)}  ${Object.entries(value).map(([k, v]) => genStr(k, v, d + 2)).join(`\n${'  '.repeat(d + 1)}`)}\n${'  '.repeat(d - 1)}}`
-      : value}`;
-  };
-
   const formattedDiff = Object.entries(diff).map(([key, value]) => {
-    if (!_.has(value, 'hasGDChange')) {
+    if (!Object.prototype.hasOwnProperty.call(value, 'hasGDChange')) {
       return `  ${key}: ${formatter(value, depth + 2)}`;
     }
-    if (!value.hasGDChange) {
-      return `  ${genStr(key, value.value)}`;
+    if (!value.hasGDChange) return `  ${genStr(key, value.value, depth)}`;
+    const resItem = [];
+    if (Object.prototype.hasOwnProperty.call(value, 'value1')) {
+      resItem.push(`- ${genStr(key, value.value1, depth + 2)}`);
     }
-    const a = value.value1 !== undefined ? `- ${genStr(key, value.value1, depth + 2)}` : undefined;
-    const b = value.value2 !== undefined ? `+ ${genStr(key, value.value2, depth + 2)}` : undefined;
-    return _.compact([a, b]).join(`\n${'  '.repeat(depth)}`);
+    if (Object.prototype.hasOwnProperty.call(value, 'value2')) {
+      resItem.push(`+ ${genStr(key, value.value2, depth + 2)}`);
+    }
+    return resItem.length === 2 ? resItem.join(`\n${'  '.repeat(depth)}`) : resItem[0];
   });
-  return `{\n${'  '.repeat(depth)}${formattedDiff.join(`\n${'  '.repeat(depth)}`)}\n${'  '.repeat(depth - 1)}}`;
+  return `{
+${'  '.repeat(depth)}${formattedDiff.join(`\n${'  '.repeat(depth)}`)}
+${'  '.repeat(depth - 1)}}`;
 };
 
 export default formatter;

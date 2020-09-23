@@ -12,7 +12,7 @@ program
   .arguments('<filepath1> <filepath2>')
   .option('-f, --format [type]', 'output format', 'stylish')
   .action((filepath1, filepath2) => {
-    if (program.format === 'stylish') console.log(stylish(diff(filepath1, filepath2))); 
+    if (program.format === 'stylish') console.log(stylish(diff(filepath1, filepath2)));
   })
   .helpOption('-h, --help', 'output usage information');
 
