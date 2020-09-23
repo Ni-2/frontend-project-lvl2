@@ -22,13 +22,14 @@ const difference = (data1, data2) => {
     }
     const hasGDChange = data1[key] !== data2[key];
     acc[key] = { hasGDChange };
-    if (hasGDChange && Object.prototype.hasOwnProperty.call(data1, key)) {
-      acc[key].value1 = data1[key];
-    }
-    if (hasGDChange && Object.prototype.hasOwnProperty.call(data2, key)) {
-      acc[key].value2 = data2[key];
-    }
-    if (!hasGDChange) acc[key].value = data1[key];
+    if (hasGDChange) {
+      if (Object.prototype.hasOwnProperty.call(data1, key)) {
+        acc[key].value1 = data1[key];
+      }
+      if (Object.prototype.hasOwnProperty.call(data2, key)) {
+        acc[key].value2 = data2[key];
+      }
+    } else acc[key].value = data1[key];
     return acc;
   }, {});
 };

@@ -12,18 +12,19 @@ ${'  '.repeat(depth - 1)}}`
 };
 
 const formatter = (diff, depth = 1) => {
+  const addItem = (resItem, key, value, subKey, mark) => {
+    if (Object.prototype.hasOwnProperty.call(value, subKey)) {
+      resItem.push(`${mark} ${genStr(key, value[subKey], depth + 2)}`);
+    }
+  };
   const formattedDiff = Object.entries(diff).map(([key, value]) => {
     if (!Object.prototype.hasOwnProperty.call(value, 'hasGDChange')) {
       return `  ${key}: ${formatter(value, depth + 2)}`;
     }
     if (!value.hasGDChange) return `  ${genStr(key, value.value, depth)}`;
     const resItem = [];
-    if (Object.prototype.hasOwnProperty.call(value, 'value1')) {
-      resItem.push(`- ${genStr(key, value.value1, depth + 2)}`);
-    }
-    if (Object.prototype.hasOwnProperty.call(value, 'value2')) {
-      resItem.push(`+ ${genStr(key, value.value2, depth + 2)}`);
-    }
+    addItem(resItem, key, value, 'value1', '-');
+    addItem(resItem, key, value, 'value2', '+');
     return resItem.length === 2 ? resItem.join(`\n${'  '.repeat(depth)}`) : resItem[0];
   });
   return `{
