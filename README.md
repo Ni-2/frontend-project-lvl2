@@ -20,3 +20,7 @@ The second project of Frontend-developer profession in Hexlet
 
 ## Generate difference of JSON files recursively.
 [![asciicast](https://asciinema.org/a/CEgnUamzXyO8gTiqFRkaAeNSS.svg)](https://asciinema.org/a/CEgnUamzXyO8gTiqFRkaAeNSS)
+
+
+## Generate difference of JSON files with formatter "plain".
+[![asciicast](https://asciinema.org/a/yqJAiDhTWGAR4FDIdYukTEqP0.svg)](https://asciinema.org/a/yqJAiDhTWGAR4FDIdYukTEqP0)
