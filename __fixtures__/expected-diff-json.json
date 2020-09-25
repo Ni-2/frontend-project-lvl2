@@ -1,1 +1,88 @@
-{"common":{"follow":{"hasGDChange":true,"value2":false},"setting1":{"hasGDChange":false,"value":"Value 1"},"setting2":{"hasGDChange":true,"value1":200},"setting3":{"hasGDChange":true,"value1":true,"value2":{"key":"value"}},"setting4":{"hasGDChange":true,"value2":"blah blah"},"setting5":{"hasGDChange":true,"value2":{"key5":"value5"}},"setting6":{"doge":{"wow":{"hasGDChange":true,"value1":"too much","value2":"so much"}},"key":{"hasGDChange":false,"value":"value"},"ops":{"hasGDChange":true,"value2":"vops"}}},"group1":{"baz":{"hasGDChange":true,"value1":"bas","value2":"bars"},"foo":{"hasGDChange":false,"value":"bar"},"nest":{"hasGDChange":true,"value1":{"key":"value"},"value2":"str"}},"group2":{"hasGDChange":true,"value1":{"abc":12345,"deep":{"id":45}}},"group3":{"hasGDChange":true,"value2":{"fee":100500,"deep":{"id":{"number":45}}}}}
+{
+  "common": {
+    "follow": {
+      "hasGDChange": true,
+      "value2": false
+    },
+    "setting1": {
+      "hasGDChange": false,
+      "value": "Value 1"
+    },
+    "setting2": {
+      "hasGDChange": true,
+      "value1": 200
+    },
+    "setting3": {
+      "hasGDChange": true,
+      "value1": true,
+      "value2": {
+        "key": "value"
+      }
+    },
+    "setting4": {
+      "hasGDChange": true,
+      "value2": "blah blah"
+    },
+    "setting5": {
+      "hasGDChange": true,
+      "value2": {
+        "key5": "value5"
+      }
+    },
+    "setting6": {
+      "doge": {
+        "wow": {
+          "hasGDChange": true,
+          "value1": "too much",
+          "value2": "so much"
+        }
+      },
+      "key": {
+        "hasGDChange": false,
+        "value": "value"
+      },
+      "ops": {
+        "hasGDChange": true,
+        "value2": "vops"
+      }
+    }
+  },
+  "group1": {
+    "baz": {
+      "hasGDChange": true,
+      "value1": "bas",
+      "value2": "bars"
+    },
+    "foo": {
+      "hasGDChange": false,
+      "value": "bar"
+    },
+    "nest": {
+      "hasGDChange": true,
+      "value1": {
+        "key": "value"
+      },
+      "value2": "str"
+    }
+  },
+  "group2": {
+    "hasGDChange": true,
+    "value1": {
+      "abc": 12345,
+      "deep": {
+        "id": 45
+      }
+    }
+  },
+  "group3": {
+    "hasGDChange": true,
+    "value2": {
+      "fee": 100500,
+      "deep": {
+        "id": {
+          "number": 45
+        }
+      }
+    }
+  }
+}
