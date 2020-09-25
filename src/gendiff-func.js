@@ -2,11 +2,20 @@ import fs from 'fs';
 import path from 'path';
 import parsers from './parsers.js';
 
+const findIntegers = (data) => Object.entries(data).reduce((acc, [key, value]) => {
+  if (typeof value === 'object') return { ...acc, [key]: findIntegers(value) };
+  if (parseInt(value, 10).toString() === value) return { ...acc, [key]: parseInt(value, 10) };
+  if (parseFloat(value).toString() === value) return { ...acc, [key]: parseFloat(value) };
+  return { ...acc, [key]: value };
+}, {});
+
 const getData = (filename) => {
   const absoluteFilename = path.resolve(process.cwd(), filename);
   const data = fs.readFileSync(absoluteFilename, 'utf-8');
   const parse = parsers(filename);
-  return parse(data);
+  const parcedData = parse(data);
+  if (path.extname(filename) === '.ini') return findIntegers(parcedData);
+  return parcedData;
 };
 
 const difference = (data1, data2) => {

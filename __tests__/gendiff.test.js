@@ -12,10 +12,14 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 let expectedFlatDiff;
 let expectedDeepDiff;
 let expectedDiffPlain;
+let expectedDiffJson;
+let expectedFlatDiffPlain;
 beforeAll(() => {
   expectedFlatDiff = fs.readFileSync(getFixturePath('expected-flat-diff.txt'), 'utf-8').trim();
   expectedDeepDiff = fs.readFileSync(getFixturePath('expected-deep-diff.txt'), 'utf-8').trim();
   expectedDiffPlain = fs.readFileSync(getFixturePath('expected-diff-plain.txt'), 'utf-8').trim();
+  expectedDiffJson = fs.readFileSync(getFixturePath('expected-diff-json.json'), 'utf-8').trim();
+  expectedFlatDiffPlain = fs.readFileSync(getFixturePath('expected-flat-diff-plain.txt'), 'utf-8').trim();
 });
 
 test('genFlatDiff', () => {
@@ -37,6 +41,12 @@ test('genDeepDiff', () => {
 test('genDeepDiff with other formatters', () => {
   expect(formatters('plain')(gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'))))
     .toEqual(expectedDiffPlain);
+  expect(formatters('plain')(gendiff(getFixturePath('file3.ini'), getFixturePath('file4.ini'))))
+    .toEqual(expectedDiffPlain);
+  expect(formatters('plain')(gendiff(getFixturePath('file1.ini'), getFixturePath('file2.ini'))))
+    .toEqual(expectedFlatDiffPlain);
+  expect(formatters('json')(gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'))))
+    .toEqual(expectedDiffJson);
   expect(() => formatters('notAddedFormatter')(gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'))))
     .toThrow();
 });
