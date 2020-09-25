@@ -4,7 +4,6 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
 import gendiff from '../src/gendiff-func.js';
-import formatters from '../formatters/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,30 +22,30 @@ beforeAll(() => {
 });
 
 test('genFlatDiff', () => {
-  expect(formatters('stylish')(gendiff(getFixturePath('file1.json'), getFixturePath('file2.json'))))
+  expect(gendiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'stylish'))
     .toEqual(expectedFlatDiff);
-  expect(formatters('stylish')(gendiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'))))
+  expect(gendiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'), 'stylish'))
     .toEqual(expectedFlatDiff);
-  expect(formatters('stylish')(gendiff(getFixturePath('file1.ini'), getFixturePath('file2.ini'))))
+  expect(gendiff(getFixturePath('file1.ini'), getFixturePath('file2.ini'), 'stylish'))
     .toEqual(expectedFlatDiff);
-  expect(() => formatters('stylish')(gendiff(getFixturePath('file1'), getFixturePath('file2.yaml'))))
+  expect(() => gendiff(getFixturePath('file1'), getFixturePath('file2.yaml'), 'stylish'))
     .toThrow();
 });
 
 test('genDeepDiff', () => {
-  expect(formatters('stylish')(gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'))))
+  expect(gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'), 'stylish'))
     .toEqual(expectedDeepDiff);
 });
 
 test('genDeepDiff with other formatters', () => {
-  expect(formatters('plain')(gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'))))
+  expect(gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'), 'plain'))
     .toEqual(expectedDiffPlain);
-  expect(formatters('plain')(gendiff(getFixturePath('file3.ini'), getFixturePath('file4.ini'))))
+  expect(gendiff(getFixturePath('file3.ini'), getFixturePath('file4.ini'), 'plain'))
     .toEqual(expectedDiffPlain);
-  expect(formatters('plain')(gendiff(getFixturePath('file1.ini'), getFixturePath('file2.ini'))))
+  expect(gendiff(getFixturePath('file1.ini'), getFixturePath('file2.ini'), 'plain'))
     .toEqual(expectedFlatDiffPlain);
-  expect(formatters('json')(gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'))))
+  expect(gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'), 'json'))
     .toEqual(expectedDiffJson);
-  expect(() => formatters('notAddedFormatter')(gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'))))
+  expect(() => gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'), 'notAddedFormat'))
     .toThrow();
 });

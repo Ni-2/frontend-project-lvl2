@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import parsers from './parsers.js';
+import formatters from '../formatters/index.js';
 
 const findIntegers = (data) => Object.entries(data).reduce((acc, [key, value]) => {
   if (typeof value === 'object') return { ...acc, [key]: findIntegers(value) };
@@ -43,8 +44,9 @@ const difference = (data1, data2) => {
   }, {});
 };
 
-export default (filename1, filename2) => {
+export default (filename1, filename2, format) => {
   const data1 = getData(filename1);
   const data2 = getData(filename2);
-  return difference(data1, data2);
+  const diff = difference(data1, data2);
+  return formatters(format)(diff);
 };
