@@ -24,3 +24,7 @@ The second project of Frontend-developer profession in Hexlet
 
 ## Generate difference of JSON files with formatter "plain".
 [![asciicast](https://asciinema.org/a/yqJAiDhTWGAR4FDIdYukTEqP0.svg)](https://asciinema.org/a/yqJAiDhTWGAR4FDIdYukTEqP0)
+
+
+## Generate difference with formatter "json".
+[![asciicast](https://asciinema.org/a/SrdlRxr30ObJXnhaAckERkDLX.svg)](https://asciinema.org/a/SrdlRxr30ObJXnhaAckERkDLX)
