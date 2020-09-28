@@ -24,12 +24,8 @@ const genNode = (name, type, value, value2 = undefined) => ({
   name, type, value, value2,
 });
 
-const difference = (data1, data2) => Object.keys(data1).concat(Object.keys(data2))
-  .reduce((acc, key) => {
-    if (!acc.includes(key)) acc.push(key);
-    return acc;
-  }, [])
-  .sort()
+const difference = (data1, data2) => [...Object.keys(data1), ...Object.keys(data2)]
+  .reduce((acc, key) => (acc.includes(key) ? acc : [...acc, key]), []).sort()
   .map((key) => {
     if (typeof data1[key] === 'object' && typeof data2[key] === 'object') {
       return { name: key, type: 'list', children: difference(data1[key], data2[key]) };
