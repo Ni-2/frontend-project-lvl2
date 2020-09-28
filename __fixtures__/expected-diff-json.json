@@ -1,82 +1,112 @@
-{
-  "common": {
-    "follow": {
-      "hasGDChange": true,
-      "value2": false
-    },
-    "setting1": {
-      "hasGDChange": false,
-      "value": "Value 1"
-    },
-    "setting2": {
-      "hasGDChange": true,
-      "value1": 200
-    },
-    "setting3": {
-      "hasGDChange": true,
-      "value1": true,
-      "value2": {
-        "key": "value"
-      }
-    },
-    "setting4": {
-      "hasGDChange": true,
-      "value2": "blah blah"
-    },
-    "setting5": {
-      "hasGDChange": true,
-      "value2": {
-        "key5": "value5"
-      }
-    },
-    "setting6": {
-      "doge": {
-        "wow": {
-          "hasGDChange": true,
-          "value1": "too much",
-          "value2": "so much"
+[
+  {
+    "name": "common",
+    "type": "list",
+    "children": [
+      {
+        "name": "follow",
+        "type": "added",
+        "value": false
+      },
+      {
+        "name": "setting1",
+        "type": "not changed",
+        "value": "Value 1"
+      },
+      {
+        "name": "setting2",
+        "type": "removed",
+        "value": 200
+      },
+      {
+        "name": "setting3",
+        "type": "modified",
+        "value1": true,
+        "value2": {
+          "key": "value"
         }
       },
-      "key": {
-        "hasGDChange": false,
-        "value": "value"
+      {
+        "name": "setting4",
+        "type": "added",
+        "value": "blah blah"
       },
-      "ops": {
-        "hasGDChange": true,
-        "value2": "vops"
+      {
+        "name": "setting5",
+        "type": "added",
+        "value": {
+          "key5": "value5"
+        }
+      },
+      {
+        "name": "setting6",
+        "type": "list",
+        "children": [
+          {
+            "name": "doge",
+            "type": "list",
+            "children": [
+              {
+                "name": "wow",
+                "type": "modified",
+                "value1": "too much",
+                "value2": "so much"
+              }
+            ]
+          },
+          {
+            "name": "key",
+            "type": "not changed",
+            "value": "value"
+          },
+          {
+            "name": "ops",
+            "type": "added",
+            "value": "vops"
+          }
+        ]
       }
-    }
+    ]
   },
-  "group1": {
-    "baz": {
-      "hasGDChange": true,
-      "value1": "bas",
-      "value2": "bars"
-    },
-    "foo": {
-      "hasGDChange": false,
-      "value": "bar"
-    },
-    "nest": {
-      "hasGDChange": true,
-      "value1": {
-        "key": "value"
+  {
+    "name": "group1",
+    "type": "list",
+    "children": [
+      {
+        "name": "baz",
+        "type": "modified",
+        "value1": "bas",
+        "value2": "bars"
       },
-      "value2": "str"
-    }
+      {
+        "name": "foo",
+        "type": "not changed",
+        "value": "bar"
+      },
+      {
+        "name": "nest",
+        "type": "modified",
+        "value1": {
+          "key": "value"
+        },
+        "value2": "str"
+      }
+    ]
   },
-  "group2": {
-    "hasGDChange": true,
-    "value1": {
+  {
+    "name": "group2",
+    "type": "removed",
+    "value": {
       "abc": 12345,
       "deep": {
         "id": 45
       }
     }
   },
-  "group3": {
-    "hasGDChange": true,
-    "value2": {
+  {
+    "name": "group3",
+    "type": "added",
+    "value": {
       "fee": 100500,
       "deep": {
         "id": {
@@ -85,4 +115,4 @@
       }
     }
   }
-}
+]
