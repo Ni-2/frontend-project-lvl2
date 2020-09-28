@@ -16,7 +16,7 @@ const formatter = (diff, parent = '') => diff.map((node) => {
     return `Property '${parent}${node.name}' was removed`;
   }
   return `Property '${parent}${node.name}' was updated. \
-From ${formattedValue(node.value1)} to ${formattedValue(node.value2)}`;
+From ${formattedValue(node.value)} to ${formattedValue(node.value2)}`;
 })
   .filter((item) => item !== null)
   .join('\n');

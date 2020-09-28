@@ -19,6 +19,10 @@ const getData = (filename) => {
   return parcedData;
 };
 
+const genNode = (name, type, value, value2 = undefined) => ({
+  name, type, value, value2,
+});
+
 const difference = (data1, data2) => Object.keys(data1).concat(Object.keys(data2))
   .reduce((acc, key) => {
     if (!acc.includes(key)) acc.push(key);
@@ -30,17 +34,15 @@ const difference = (data1, data2) => Object.keys(data1).concat(Object.keys(data2
       return { name: key, type: 'list', children: difference(data1[key], data2[key]) };
     }
     if (data1[key] === data2[key]) {
-      return { name: key, type: 'not changed', value: data2[key] };
+      return genNode(key, 'not changed', data2[key]);
     }
     if (!Object.prototype.hasOwnProperty.call(data1, key)) {
-      return { name: key, type: 'added', value: data2[key] };
+      return genNode(key, 'added', data2[key]);
     }
     if (!Object.prototype.hasOwnProperty.call(data2, key)) {
-      return { name: key, type: 'removed', value: data1[key] };
+      return genNode(key, 'removed', data1[key]);
     }
-    return {
-      name: key, type: 'modified', value1: data1[key], value2: data2[key],
-    };
+    return genNode(key, 'modified', data1[key], data2[key]);
   });
 
 export default (filename1, filename2, format) => {

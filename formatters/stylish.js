@@ -13,7 +13,7 @@ const format = (diff, depth = 1) => {
       case 'list': return `  ${node.name}: ${format(node.children, depth + 2)}`;
       case 'added': return `+ ${node.name}: ${genStr(node.value, depth + 2)}`;
       case 'removed': return `- ${node.name}: ${genStr(node.value, depth + 2)}`;
-      case 'modified': return `- ${node.name}: ${genStr(node.value1, depth + 2)}
+      case 'modified': return `- ${node.name}: ${genStr(node.value, depth + 2)}
 ${'  '.repeat(depth)}+ ${node.name}: ${genStr(node.value2, depth + 2)}`;
       case 'not changed': return `  ${node.name}: ${genStr(node.value, depth + 2)}`;
       default: throw new Error(`Unexpected node type: "${node.type}"!`);

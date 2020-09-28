@@ -21,7 +21,7 @@
       {
         "name": "setting3",
         "type": "modified",
-        "value1": true,
+        "value": true,
         "value2": {
           "key": "value"
         }
@@ -49,7 +49,7 @@
               {
                 "name": "wow",
                 "type": "modified",
-                "value1": "too much",
+                "value": "too much",
                 "value2": "so much"
               }
             ]
@@ -75,7 +75,7 @@
       {
         "name": "baz",
         "type": "modified",
-        "value1": "bas",
+        "value": "bas",
         "value2": "bars"
       },
       {
@@ -86,7 +86,7 @@
       {
         "name": "nest",
         "type": "modified",
-        "value1": {
+        "value": {
           "key": "value"
         },
         "value2": "str"
