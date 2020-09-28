@@ -4,6 +4,8 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
 import gendiff from '../src/gendiff-func.js';
+import stylish from '../formatters/stylish.js';
+import wrongDiff from '../__fixtures__/wrong-diff.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -48,4 +50,8 @@ test('genDeepDiff with other formatters', () => {
     .toEqual(expectedDiffJson);
   expect(() => gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'), 'notAddedFormat'))
     .toThrow();
+});
+
+test('Testing Stylish formatter, when received node with wrong type', () => {
+  expect(() => stylish(wrongDiff())).toThrow();
 });

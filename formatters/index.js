@@ -11,6 +11,6 @@ export default (name) => {
     case 'json':
       return json;
     default:
-      throw new Error('There is no such a formatter');
+      throw new Error(`There is no such a formatter: ${name}`);
   }
 };

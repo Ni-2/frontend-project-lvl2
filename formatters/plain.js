@@ -4,21 +4,20 @@ const formattedValue = (value) => {
   return value;
 };
 
-const formatter = (diff, parent = '') => Object.entries(diff)
-  .map(([key, value]) => {
-    if (!Object.prototype.hasOwnProperty.call(value, 'hasGDChange')) {
-      return formatter(value, `${parent}${key}.`);
-    }
-    if (!value.hasGDChange) return null;
-    if (!Object.prototype.hasOwnProperty.call(value, 'value1')) {
-      return `Property '${parent}${key}' was added with value: ${formattedValue(value.value2)}`;
-    }
-    if (!Object.prototype.hasOwnProperty.call(value, 'value2')) {
-      return `Property '${parent}${key}' was removed`;
-    }
-    return `Property '${parent}${key}' was updated. \
-From ${formattedValue(value.value1)} to ${formattedValue(value.value2)}`;
-  })
+const formatter = (diff, parent = '') => diff.map((node) => {
+  if (node.type === 'list') {
+    return formatter(node.children, `${parent}${node.name}.`);
+  }
+  if (node.type === 'not changed') return null;
+  if (node.type === 'added') {
+    return `Property '${parent}${node.name}' was added with value: ${formattedValue(node.value)}`;
+  }
+  if (node.type === 'removed') {
+    return `Property '${parent}${node.name}' was removed`;
+  }
+  return `Property '${parent}${node.name}' was updated. \
+From ${formattedValue(node.value1)} to ${formattedValue(node.value2)}`;
+})
   .filter((item) => item !== null)
   .join('\n');
 

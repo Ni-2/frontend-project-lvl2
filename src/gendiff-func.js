@@ -19,30 +19,29 @@ const getData = (filename) => {
   return parcedData;
 };
 
-const difference = (data1, data2) => {
-  const allKeys = Object.keys(data1).concat(Object.keys(data2))
-    .reduce((acc, val) => {
-      if (!acc.includes(val)) acc.push(val);
-      return acc;
-    }, []).sort();
-  return allKeys.reduce((acc, key) => {
-    if (typeof data1[key] === 'object' && typeof data2[key] === 'object') {
-      acc[key] = difference(data1[key], data2[key]);
-      return acc;
-    }
-    const hasGDChange = data1[key] !== data2[key];
-    acc[key] = { hasGDChange };
-    if (hasGDChange) {
-      if (Object.prototype.hasOwnProperty.call(data1, key)) {
-        acc[key].value1 = data1[key];
-      }
-      if (Object.prototype.hasOwnProperty.call(data2, key)) {
-        acc[key].value2 = data2[key];
-      }
-    } else acc[key].value = data1[key];
+const difference = (data1, data2) => Object.keys(data1).concat(Object.keys(data2))
+  .reduce((acc, key) => {
+    if (!acc.includes(key)) acc.push(key);
     return acc;
-  }, {});
-};
+  }, [])
+  .sort()
+  .map((key) => {
+    if (typeof data1[key] === 'object' && typeof data2[key] === 'object') {
+      return { name: key, type: 'list', children: difference(data1[key], data2[key]) };
+    }
+    if (data1[key] === data2[key]) {
+      return { name: key, type: 'not changed', value: data2[key] };
+    }
+    if (!Object.prototype.hasOwnProperty.call(data1, key)) {
+      return { name: key, type: 'added', value: data2[key] };
+    }
+    if (!Object.prototype.hasOwnProperty.call(data2, key)) {
+      return { name: key, type: 'removed', value: data1[key] };
+    }
+    return {
+      name: key, type: 'modified', value1: data1[key], value2: data2[key],
+    };
+  });
 
 export default (filename1, filename2, format) => {
   const data1 = getData(filename1);
