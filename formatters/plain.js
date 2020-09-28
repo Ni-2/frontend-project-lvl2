@@ -5,18 +5,21 @@ const formattedValue = (value) => {
 };
 
 const formatter = (diff, parent = '') => diff.map((node) => {
-  if (node.type === 'list') {
-    return formatter(node.children, `${parent}${node.name}.`);
-  }
-  if (node.type === 'not changed') return null;
-  if (node.type === 'added') {
-    return `Property '${parent}${node.name}' was added with value: ${formattedValue(node.value)}`;
-  }
-  if (node.type === 'removed') {
-    return `Property '${parent}${node.name}' was removed`;
-  }
-  return `Property '${parent}${node.name}' was updated. \
+  switch (node.type) {
+    case 'list':
+      return formatter(node.children, `${parent}${node.name}.`);
+    case 'not changed':
+      return null;
+    case 'added':
+      return `Property '${parent}${node.name}' was added with value: ${formattedValue(node.value)}`;
+    case 'removed':
+      return `Property '${parent}${node.name}' was removed`;
+    case 'modified':
+      return `Property '${parent}${node.name}' was updated. \
 From ${formattedValue(node.value)} to ${formattedValue(node.value2)}`;
+    default:
+      throw new Error(`Unexpected node type: "${node.type}".`);
+  }
 })
   .filter((item) => item !== null)
   .join('\n');

@@ -5,6 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import gendiff from '../src/gendiff-func.js';
 import stylish from '../formatters/stylish.js';
+import plain from '../formatters/plain.js';
 import wrongDiff from '../__fixtures__/wrong-diff.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -52,6 +53,7 @@ test('genDeepDiff with other formatters', () => {
     .toThrow();
 });
 
-test('Testing Stylish formatter, when received node with wrong type', () => {
+test('Testing formatters, when received node with wrong type', () => {
   expect(() => stylish(wrongDiff())).toThrow();
+  expect(() => plain(wrongDiff())).toThrow();
 });
