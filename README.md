@@ -27,4 +27,4 @@ The second project of Frontend-developer profession in Hexlet
 
 
 ## Generate difference with formatter "json".
-[![asciicast](https://asciinema.org/a/SrdlRxr30ObJXnhaAckERkDLX.svg)](https://asciinema.org/a/SrdlRxr30ObJXnhaAckERkDLX)
+[![asciicast](https://asciinema.org/a/mI8F1y4cAogZrwIFkJvT4OkJF.svg)](https://asciinema.org/a/mI8F1y4cAogZrwIFkJvT4OkJF)
