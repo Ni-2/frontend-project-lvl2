@@ -4,10 +4,11 @@ import parsers from './parsers.js';
 import formatters from '../formatters/index.js';
 
 const findIntegers = (data) => Object.entries(data).reduce((acc, [key, value]) => {
-  if (typeof value === 'object') return { ...acc, [key]: findIntegers(value) };
-  if (parseInt(value, 10).toString() === value) return { ...acc, [key]: parseInt(value, 10) };
-  if (parseFloat(value).toString() === value) return { ...acc, [key]: parseFloat(value) };
-  return { ...acc, [key]: value };
+  if (typeof value === 'object') acc[key] = findIntegers(value);
+  else if (parseInt(value, 10).toString() === value) acc[key] = parseInt(value, 10);
+  else if (parseFloat(value).toString() === value) acc[key] = parseFloat(value);
+  else acc[key] = value;
+  return acc;
 }, {});
 
 const getData = (filename) => {
@@ -33,16 +34,12 @@ const difference = (data1, data2) => Object.keys(data1).concat(Object.keys(data2
     if (typeof data1[key] === 'object' && typeof data2[key] === 'object') {
       return { name: key, type: 'list', children: difference(data1[key], data2[key]) };
     }
-    if (data1[key] === data2[key]) {
-      return genNode(key, 'not changed', data2[key]);
-    }
-    if (!Object.prototype.hasOwnProperty.call(data1, key)) {
-      return genNode(key, 'added', data2[key]);
-    }
-    if (!Object.prototype.hasOwnProperty.call(data2, key)) {
-      return genNode(key, 'removed', data1[key]);
-    }
-    return genNode(key, 'modified', data1[key], data2[key]);
+    const items = [key];
+    if (data1[key] === data2[key]) items.push('not changed', data2[key]);
+    else if (!Object.prototype.hasOwnProperty.call(data1, key)) items.push('added', data2[key]);
+    else if (!Object.prototype.hasOwnProperty.call(data2, key)) items.push('removed', data1[key]);
+    else items.push('modified', data1[key], data2[key]);
+    return genNode(...items);
   });
 
 export default (filename1, filename2, format) => {
