@@ -24,36 +24,51 @@ beforeAll(() => {
   expectedFlatDiffPlain = fs.readFileSync(getFixturePath('expected-flat-diff-plain.txt'), 'utf-8').trim();
 });
 
-test('genFlatDiff', () => {
-  expect(gendiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'stylish'))
+test.each([
+  ['file1.json', 'file2.json'],
+  ['file1.yaml', 'file2.yaml'],
+  ['file1.ini', 'file2.ini'],
+])('Compare of flat files', (file1, file2) => {
+  expect(gendiff(getFixturePath(file1), getFixturePath(file2), 'stylish'))
     .toEqual(expectedFlatDiff);
-  expect(gendiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'), 'stylish'))
-    .toEqual(expectedFlatDiff);
-  expect(gendiff(getFixturePath('file1.ini'), getFixturePath('file2.ini'), 'stylish'))
-    .toEqual(expectedFlatDiff);
+});
+
+test('Compare of ini flat files to plain format', () => {
+  expect(gendiff(getFixturePath('file1.ini'), getFixturePath('file2.ini'), 'plain'))
+    .toEqual(expectedFlatDiffPlain);
+});
+
+test('File of unknown type', () => {
   expect(() => gendiff(getFixturePath('file1'), getFixturePath('file2.yaml'), 'stylish'))
     .toThrow();
 });
 
-test('genDeepDiff', () => {
+test('Deep compare to stylish format', () => {
   expect(gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'), 'stylish'))
     .toEqual(expectedDeepDiff);
 });
 
-test('genDeepDiff with other formatters', () => {
-  expect(gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'), 'plain'))
+test.each([
+  ['file3.json', 'file4.json'],
+  ['file3.ini', 'file4.ini'],
+])('Deep compare to plain format', (file1, file2) => {
+  expect(gendiff(getFixturePath(file1), getFixturePath(file2), 'plain'))
     .toEqual(expectedDiffPlain);
-  expect(gendiff(getFixturePath('file3.ini'), getFixturePath('file4.ini'), 'plain'))
-    .toEqual(expectedDiffPlain);
-  expect(gendiff(getFixturePath('file1.ini'), getFixturePath('file2.ini'), 'plain'))
-    .toEqual(expectedFlatDiffPlain);
+});
+
+test('Deep compare to json format', () => {
   expect(gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'), 'json'))
     .toEqual(expectedDiffJson);
-  expect(() => gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'), 'notAddedFormat'))
+});
+
+test('Unknown format', () => {
+  expect(() => gendiff(getFixturePath('file3.json'), getFixturePath('file4.json'), 'wrongFormat'))
     .toThrow();
 });
 
-test('Testing formatters, when received node with wrong type', () => {
-  expect(() => stylish(wrongDiff())).toThrow();
-  expect(() => plain(wrongDiff())).toThrow();
+test.each([
+  stylish,
+  plain,
+])('Testing formatters, when received node with wrong type', (format) => {
+  expect(() => format(wrongDiff())).toThrow();
 });
