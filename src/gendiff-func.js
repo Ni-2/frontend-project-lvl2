@@ -1,5 +1,7 @@
 import fs from 'fs';
 import path from 'path';
+import union from 'lodash/union';
+import has from 'lodash/has';
 import parsers from './parsers.js';
 import formatters from './formatters/index.js';
 
@@ -11,12 +13,12 @@ const findIntegers = (data) => Object.entries(data).reduce((acc, [key, value]) =
   return acc;
 }, {});
 
-const getData = (filename) => {
-  const absoluteFilename = path.resolve(process.cwd(), filename);
+const getData = (filepath) => {
+  const absoluteFilename = path.resolve(process.cwd(), filepath);
   const data = fs.readFileSync(absoluteFilename, 'utf-8');
-  const parse = parsers(filename);
+  const parse = parsers(filepath);
   const parcedData = parse(data);
-  if (path.extname(filename) === '.ini') return findIntegers(parcedData);
+  if (path.extname(filepath) === '.ini') return findIntegers(parcedData);
   return parcedData;
 };
 
@@ -24,23 +26,23 @@ const genNode = (name, type, value, value2 = undefined) => ({
   name, type, value, value2,
 });
 
-const difference = (data1, data2) => [...Object.keys(data1), ...Object.keys(data2)]
-  .reduce((acc, key) => (acc.includes(key) ? acc : [...acc, key]), []).sort()
+const compare = (data1, data2) => union(Object.keys(data1), Object.keys(data2))
+  .sort()
   .map((key) => {
     if (typeof data1[key] === 'object' && typeof data2[key] === 'object') {
-      return { name: key, type: 'list', children: difference(data1[key], data2[key]) };
+      return { name: key, type: 'list', children: compare(data1[key], data2[key]) };
     }
     const items = [key];
     if (data1[key] === data2[key]) items.push('not changed', data2[key]);
-    else if (!Object.prototype.hasOwnProperty.call(data1, key)) items.push('added', data2[key]);
-    else if (!Object.prototype.hasOwnProperty.call(data2, key)) items.push('removed', data1[key]);
+    else if (!has(data1, key)) items.push('added', data2[key]);
+    else if (!has(data2, key)) items.push('removed', data1[key]);
     else items.push('modified', data1[key], data2[key]);
     return genNode(...items);
   });
 
-export default (filename1, filename2, format) => {
-  const data1 = getData(filename1);
-  const data2 = getData(filename2);
-  const diff = difference(data1, data2);
+export default (filepath1, filepath2, format) => {
+  const data1 = getData(filepath1);
+  const data2 = getData(filepath2);
+  const diff = compare(data1, data2);
   return formatters(format)(diff);
 };
