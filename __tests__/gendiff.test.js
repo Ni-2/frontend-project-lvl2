@@ -4,8 +4,8 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
 import gendiff from '../src/gendiff-func.js';
-import stylish from '../formatters/stylish.js';
-import plain from '../formatters/plain.js';
+import stylish from '../src/formatters/stylish.js';
+import plain from '../src/formatters/plain.js';
 import wrongDiff from '../__fixtures__/wrong-diff.js';
 
 const __filename = fileURLToPath(import.meta.url);

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import parsers from './parsers.js';
-import formatters from '../formatters/index.js';
+import formatters from './formatters/index.js';
 
 const findIntegers = (data) => Object.entries(data).reduce((acc, [key, value]) => {
   if (typeof value === 'object') acc[key] = findIntegers(value);
