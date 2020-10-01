@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import union from 'lodash/union';
-import has from 'lodash/has';
+import _ from 'lodash';
 import parsers from './parsers.js';
 import formatters from './formatters/index.js';
 
@@ -26,7 +25,7 @@ const genNode = (name, type, value, value2 = undefined) => ({
   name, type, value, value2,
 });
 
-const compare = (data1, data2) => union(Object.keys(data1), Object.keys(data2))
+const compare = (data1, data2) => _.union(Object.keys(data1), Object.keys(data2))
   .sort()
   .map((key) => {
     if (typeof data1[key] === 'object' && typeof data2[key] === 'object') {
@@ -34,8 +33,8 @@ const compare = (data1, data2) => union(Object.keys(data1), Object.keys(data2))
     }
     const items = [key];
     if (data1[key] === data2[key]) items.push('not changed', data2[key]);
-    else if (!has(data1, key)) items.push('added', data2[key]);
-    else if (!has(data2, key)) items.push('removed', data1[key]);
+    else if (!_.has(data1, key)) items.push('added', data2[key]);
+    else if (!_.has(data2, key)) items.push('removed', data1[key]);
     else items.push('modified', data1[key], data2[key]);
     return genNode(...items);
   });
