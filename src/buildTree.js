@@ -4,12 +4,12 @@ const genNode = (name, type, value, value2 = undefined) => ({
   name, type, value, value2,
 });
 
-const compare = (data1, data2) => _([...Object.keys(data1), ...Object.keys(data2)])
+const buildTree = (data1, data2) => _([...Object.keys(data1), ...Object.keys(data2)])
   .sortBy()
   .sortedUniq()
   .map((key) => {
     if (typeof data1[key] === 'object' && typeof data2[key] === 'object') {
-      return { name: key, type: 'list', children: compare(data1[key], data2[key]) };
+      return { name: key, type: 'list', children: buildTree(data1[key], data2[key]) };
     }
     const items = [key];
     if (data1[key] === data2[key]) items.push('not changed', data2[key]);
@@ -20,4 +20,4 @@ const compare = (data1, data2) => _([...Object.keys(data1), ...Object.keys(data2
   })
   .value();
 
-export default compare;
+export default buildTree;

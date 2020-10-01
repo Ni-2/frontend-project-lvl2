@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import parsers from './parsers.js';
 import formatters from './formatters/index.js';
-import compare from './compare.js';
+import buildTree from './buildTree.js';
 
 const findIntegers = (data) => Object.entries(data).reduce((acc, [key, value]) => {
   if (typeof value === 'object') acc[key] = findIntegers(value);
@@ -24,6 +24,6 @@ const getData = (filepath) => {
 export default (filepath1, filepath2, format) => {
   const data1 = getData(filepath1);
   const data2 = getData(filepath2);
-  const diff = compare(data1, data2);
+  const diff = buildTree(data1, data2);
   return formatters(format)(diff);
 };
