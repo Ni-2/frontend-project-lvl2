@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import _ from 'lodash';
 import parsers from './parsers.js';
 import formatters from './formatters/index.js';
+import compare from './compare.js';
 
 const findIntegers = (data) => Object.entries(data).reduce((acc, [key, value]) => {
   if (typeof value === 'object') acc[key] = findIntegers(value);
@@ -20,24 +20,6 @@ const getData = (filepath) => {
   if (path.extname(filepath) === '.ini') return findIntegers(parcedData);
   return parcedData;
 };
-
-const genNode = (name, type, value, value2 = undefined) => ({
-  name, type, value, value2,
-});
-
-const compare = (data1, data2) => _.union(Object.keys(data1), Object.keys(data2))
-  .sort()
-  .map((key) => {
-    if (typeof data1[key] === 'object' && typeof data2[key] === 'object') {
-      return { name: key, type: 'list', children: compare(data1[key], data2[key]) };
-    }
-    const items = [key];
-    if (data1[key] === data2[key]) items.push('not changed', data2[key]);
-    else if (!_.has(data1, key)) items.push('added', data2[key]);
-    else if (!_.has(data2, key)) items.push('removed', data1[key]);
-    else items.push('modified', data1[key], data2[key]);
-    return genNode(...items);
-  });
 
 export default (filepath1, filepath2, format) => {
   const data1 = getData(filepath1);
