@@ -4,9 +4,6 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
 import gendiff from '../src/index.js';
-import stylish from '../src/formatters/stylish.js';
-import plain from '../src/formatters/plain.js';
-import wrongDiff from '../__fixtures__/wrong-diff.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -41,11 +38,4 @@ test('File of unknown type', () => {
 test('Unknown format', () => {
   expect(() => gendiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'wrongFormat'))
     .toThrow();
-});
-
-test.each([
-  stylish,
-  plain,
-])('Testing formatters, when received node with wrong type', (format) => {
-  expect(() => format(wrongDiff())).toThrow();
 });

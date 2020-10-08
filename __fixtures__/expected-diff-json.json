@@ -10,7 +10,7 @@
       },
       {
         "name": "setting1",
-        "type": "not changed",
+        "type": "unmodified",
         "value": "Value 1"
       },
       {
@@ -56,7 +56,7 @@
           },
           {
             "name": "key",
-            "type": "not changed",
+            "type": "unmodified",
             "value": "value"
           },
           {
@@ -80,7 +80,7 @@
       },
       {
         "name": "foo",
-        "type": "not changed",
+        "type": "unmodified",
         "value": "bar"
       },
       {

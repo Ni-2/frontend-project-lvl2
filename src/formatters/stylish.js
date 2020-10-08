@@ -1,32 +1,45 @@
-const genStr = (value, depth) => {
-  const valObj = () => Object.entries(value)
-    .map(([k, v]) => `${'  '.repeat(depth + 1)}${k}: ${genStr(v, depth + 2)}`);
+const genSeparator = (indentsCount) => '  '.repeat(indentsCount);
 
-  return typeof value !== 'object' ? value
-    : `${['{'].concat(valObj()).join('\n')}
-${'  '.repeat(depth - 1)}}`;
+const unitNodes = (nodes, indentsCount) => (
+  ['{', ...nodes, `${genSeparator(indentsCount - 1)}}`].join('\n')
+);
+
+const changeIndicator = {
+  added: '+ ',
+  removed: '- ',
+  unmodified: '  ',
+  list: '  ',
 };
 
-const format = (diff, depth = 1) => {
-  const nodes = diff.map((node) => {
-    switch (node.type) {
-      case 'list':
-        return `  ${node.name}: ${format(node.children, depth + 2)}`;
-      case 'added':
-        return `+ ${node.name}: ${genStr(node.value, depth + 2)}`;
-      case 'removed':
-        return `- ${node.name}: ${genStr(node.value, depth + 2)}`;
-      case 'modified':
-        return `- ${node.name}: ${genStr(node.value, depth + 2)}
-${'  '.repeat(depth)}+ ${node.name}: ${genStr(node.value2, depth + 2)}`;
-      case 'not changed':
-        return `  ${node.name}: ${genStr(node.value, depth + 2)}`;
-      default:
-        throw new Error(`Unexpected node type: "${node.type}"!`);
-    }
-  });
-  return `${['{'].concat(nodes).join(`\n${'  '.repeat(depth)}`)}
-${'  '.repeat(depth - 1)}}`;
+const makeLeftPart = (name, type, indentsCount) => [
+  genSeparator(indentsCount),
+  changeIndicator[type],
+  name,
+  ': ',
+].join('');
+
+const formatValue = (value, indentsCount) => {
+  if (typeof value !== 'object') return value;
+  const formattedValues = Object.entries(value)
+    .map(([childName, childValue]) => [
+      makeLeftPart(childName, 'unmodified', indentsCount),
+      formatValue(childValue, indentsCount + 2),
+    ].join(''));
+  return unitNodes(formattedValues, indentsCount);
 };
 
-export default format;
+const format = (diff, indentsCount) => {
+  const formatNode = (name, type, value, children) => {
+    const leftPart = makeLeftPart(name, type, indentsCount);
+    if (type === 'list') return [leftPart, format(children, indentsCount + 2)].join('');
+    return [leftPart, formatValue(value, indentsCount + 2)].join('');
+  };
+
+  const nodes = diff.map((node) => (node.type === 'modified'
+    ? [formatNode(node.name, 'removed', node.value),
+      formatNode(node.name, 'added', node.value2)].join('\n')
+    : formatNode(node.name, node.type, node.value, node.children)));
+  return unitNodes(nodes, indentsCount);
+};
+
+export default (diff) => format(diff, 1);

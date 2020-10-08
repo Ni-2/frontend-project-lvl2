@@ -1,27 +1,21 @@
-const formattedValue = (value) => {
+const formatValue = (value) => {
   if (typeof value === 'object') return '[complex value]';
   if (typeof value === 'string') return `'${value}'`;
   return value;
 };
 
-const formatter = (diff, parent = '') => diff.map((node) => {
-  switch (node.type) {
-    case 'list':
-      return formatter(node.children, `${parent}${node.name}.`);
-    case 'not changed':
-      return null;
-    case 'added':
-      return `Property '${parent}${node.name}' was added with value: ${formattedValue(node.value)}`;
-    case 'removed':
-      return `Property '${parent}${node.name}' was removed`;
-    case 'modified':
-      return `Property '${parent}${node.name}' was updated. \
-From ${formattedValue(node.value)} to ${formattedValue(node.value2)}`;
-    default:
-      throw new Error(`Unexpected node type: "${node.type}".`);
-  }
-})
-  .filter((item) => item !== null)
-  .join('\n');
+const format = (diff, parent = '') => {
+  const formatNodeOfType = {
+    list: (node) => format(node.children, `${parent}${node.name}.`),
+    unmodified: () => null,
+    added: (node) => `Property '${parent}${node.name}' was added with value: ${formatValue(node.value)}`,
+    removed: (node) => `Property '${parent}${node.name}' was removed`,
+    modified: (node) => [`Property '${parent}${node.name}' was updated. `,
+      `From ${formatValue(node.value)} to ${formatValue(node.value2)}`].join(''),
+  };
+  return diff.map((node) => formatNodeOfType[node.type](node))
+    .filter((item) => item !== null)
+    .join('\n');
+};
 
-export default formatter;
+export default format;
