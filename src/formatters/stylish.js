@@ -1,8 +1,6 @@
-const genSeparator = (indentsCount) => '  '.repeat(indentsCount);
-
-const unitNodes = (nodes, indentsCount) => (
-  ['{', ...nodes, `${genSeparator(indentsCount - 1)}}`].join('\n')
-);
+const unitNodes = (nodes, indentsCount) => [
+  '{', ...nodes, `${'  '.repeat(indentsCount - 1)}}`,
+].join('\n');
 
 const changeIndicator = {
   added: '+ ',
@@ -11,29 +9,27 @@ const changeIndicator = {
   list: '  ',
 };
 
-const makeLeftPart = (name, type, indentsCount) => [
-  genSeparator(indentsCount),
-  changeIndicator[type],
-  name,
-  ': ',
-].join('');
-
 const formatValue = (value, indentsCount) => {
   if (typeof value !== 'object') return value;
   const formattedValues = Object.entries(value)
     .map(([childName, childValue]) => [
-      makeLeftPart(childName, 'unmodified', indentsCount),
+      '  '.repeat(indentsCount + 1),
+      childName,
+      ': ',
       formatValue(childValue, indentsCount + 2),
     ].join(''));
   return unitNodes(formattedValues, indentsCount);
 };
 
 const format = (diff, indentsCount) => {
-  const formatNode = (name, type, value, children) => {
-    const leftPart = makeLeftPart(name, type, indentsCount);
-    if (type === 'list') return [leftPart, format(children, indentsCount + 2)].join('');
-    return [leftPart, formatValue(value, indentsCount + 2)].join('');
-  };
+  const formatNode = (name, type, value, children) => [
+    '  '.repeat(indentsCount),
+    changeIndicator[type],
+    name,
+    ': ',
+    type === 'list' ? format(children, indentsCount + 2)
+      : formatValue(value, indentsCount + 2),
+  ].join('');
 
   const nodes = diff.map((node) => (node.type === 'modified'
     ? [formatNode(node.name, 'removed', node.value),
