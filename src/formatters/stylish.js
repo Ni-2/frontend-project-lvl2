@@ -2,13 +2,6 @@ const unitNodes = (nodes, indentsCount) => [
   '{', ...nodes, `${'  '.repeat(indentsCount - 1)}}`,
 ].join('\n');
 
-const changeIndicator = {
-  added: '+ ',
-  removed: '- ',
-  unmodified: '  ',
-  list: '  ',
-};
-
 const formatValue = (value, indentsCount) => {
   if (typeof value !== 'object') return value;
   const formattedValues = Object.entries(value)
@@ -19,6 +12,13 @@ const formatValue = (value, indentsCount) => {
       formatValue(childValue, indentsCount + 2),
     ].join(''));
   return unitNodes(formattedValues, indentsCount);
+};
+
+const changeIndicator = {
+  added: '+ ',
+  removed: '- ',
+  unmodified: '  ',
+  list: '  ',
 };
 
 const format = (diff, indentsCount) => {
