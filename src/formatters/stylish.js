@@ -7,20 +7,16 @@ const formatValue = (value, indentsCount) => {
 };
 
 const format = (diff, indentsCount) => {
+  const formatNode = (name, value, symbol) => (
+    `${'  '.repeat(indentsCount)}${symbol} ${name}: ${formatValue(value, indentsCount + 2)}`
+  );
+
   const formatNodeByType = {
-    added: (node) => (
-      `${'  '.repeat(indentsCount)}+ ${node.name}: ${formatValue(node.value, indentsCount + 2)}`
-    ),
-    removed: (node) => (
-      `${'  '.repeat(indentsCount)}- ${node.name}: ${formatValue(node.value, indentsCount + 2)}`
-    ),
-    unmodified: (node) => (
-      `${'  '.repeat(indentsCount)}  ${node.name}: ${formatValue(node.value, indentsCount + 2)}`
-    ),
-    modified: (node) => [
-      `${'  '.repeat(indentsCount)}- ${node.name}: ${formatValue(node.value, indentsCount + 2)}`,
-      `${'  '.repeat(indentsCount)}+ ${node.name}: ${formatValue(node.value2, indentsCount + 2)}`,
-    ].join('\n'),
+    added: (node) => formatNode(node.name, node.value, '+'),
+    removed: (node) => formatNode(node.name, node.value, '-'),
+    unmodified: (node) => formatNode(node.name, node.value, ' '),
+    modified: (node) => [formatNode(node.name, node.value, '-'),
+      formatNode(node.name, node.value2, '+')].join('\n'),
     list: (node) => (
       `${'  '.repeat(indentsCount)}  ${node.name}: ${format(node.children, indentsCount + 2)}`
     ),
