@@ -6,22 +6,22 @@ const formatValue = (value, indentsCount) => {
   return `{\n${formattedValues.join('\n')}\n${'  '.repeat(indentsCount - 1)}}`;
 };
 
-const format = (diff, indentsCount) => {
-  const formatNode = (name, value, symbol) => (
-    `${'  '.repeat(indentsCount)}${symbol} ${name}: ${formatValue(value, indentsCount + 2)}`
-  );
+const formatNode = (name, value, symbol, indentsCount) => (
+  `${'  '.repeat(indentsCount)}${symbol} ${name}: ${formatValue(value, indentsCount + 2)}`
+);
 
+const format = (diff, indentsCount) => {
   const formatNodeByType = {
-    added: (node) => formatNode(node.name, node.value, '+'),
-    removed: (node) => formatNode(node.name, node.value, '-'),
-    unmodified: (node) => formatNode(node.name, node.value, ' '),
-    modified: (node) => [formatNode(node.name, node.value, '-'),
-      formatNode(node.name, node.value2, '+')].join('\n'),
+    added: (node) => formatNode(node.name, node.value, '+', indentsCount),
+    removed: (node) => formatNode(node.name, node.value, '-', indentsCount),
+    unmodified: (node) => formatNode(node.name, node.value, ' ', indentsCount),
+    modified: (node) => [formatNode(node.name, node.value, '-', indentsCount),
+      formatNode(node.name, node.value2, '+', indentsCount)],
     list: (node) => (
       `${'  '.repeat(indentsCount)}  ${node.name}: ${format(node.children, indentsCount + 2)}`
     ),
   };
-  const nodes = diff.map((node) => formatNodeByType[node.type](node));
+  const nodes = diff.flatMap((node) => formatNodeByType[node.type](node));
   return `{\n${nodes.join('\n')}\n${'  '.repeat(indentsCount - 1)}}`;
 };
 
