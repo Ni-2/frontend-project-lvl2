@@ -4,7 +4,7 @@ const formatValue = (value) => {
   return value;
 };
 
-const format = (diff, parent = '') => {
+const format = (diff, parent) => {
   const formatNodeOfType = {
     list: (node) => format(node.children, `${parent}${node.name}.`),
     unmodified: () => null,
@@ -18,4 +18,4 @@ const format = (diff, parent = '') => {
     .join('\n');
 };
 
-export default format;
+export default (diff) => format(diff, '');
