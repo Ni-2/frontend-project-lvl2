@@ -2,7 +2,10 @@
   "name": "frontend-project-lvl2",
   "version": "1.0.0",
   "description": "Hexlet project #2 \"Difference generator\"",
-  "main": "bin/gendiff.js",
+  "bin": {
+    "gendiff": "bin/gendiff.js"
+  },
+  "main": "src/index.js",
   "type": "module",
   "dependencies": {
     "commander": "^6.1.0",
