@@ -44,7 +44,22 @@
         }
     }
     group4: {
+      - default: null
+      + default:
+      - foo: 0
+      + foo: null
+      - isNested: false
+      + isNested: none
+      + key: false
+        nest: {
+          - bar:
+          + bar: 0
+          - isNested: true
+        }
+      + someKey: true
       - timeout: 50
       + timeout: 20.87
+      - type: bas
+      + type: bar
     }
 }

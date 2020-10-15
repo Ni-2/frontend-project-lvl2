@@ -120,10 +120,61 @@
     "type": "list",
     "children": [
       {
+        "name": "default",
+        "type": "modified",
+        "value": null,
+        "value2": ""
+      },
+      {
+        "name": "foo",
+        "type": "modified",
+        "value": 0,
+        "value2": null
+      },
+      {
+        "name": "isNested",
+        "type": "modified",
+        "value": false,
+        "value2": "none"
+      },
+      {
+        "name": "key",
+        "type": "added",
+        "value": false
+      },
+      {
+        "name": "nest",
+        "type": "list",
+        "children": [
+          {
+            "name": "bar",
+            "type": "modified",
+            "value": "",
+            "value2": 0
+          },
+          {
+            "name": "isNested",
+            "type": "removed",
+            "value": true
+          }
+        ]
+      },
+      {
+        "name": "someKey",
+        "type": "added",
+        "value": true
+      },
+      {
         "name": "timeout",
         "type": "modified",
         "value": 50,
         "value2": 20.87
+      },
+      {
+        "name": "type",
+        "type": "modified",
+        "value": "bas",
+        "value2": "bar"
       }
     ]
   }

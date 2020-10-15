@@ -22,3 +22,11 @@ group3:
       number: 45
 group4:
   timeout: 20.87
+  default: ""
+  foo: null
+  isNested: none
+  key: false
+  nest:
+    bar: 0
+  someKey: true
+  type: bar

@@ -17,3 +17,10 @@ group2:
     id: 45
 group4:
   timeout: 50
+  default: null
+  foo: 0
+  isNested: false
+  nest:
+    bar: ""
+    isNested: true
+  type: bas

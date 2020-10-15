@@ -14,7 +14,8 @@ const buildTree = (data1, data2) => {
     if (!_.has(data2, key)) {
       return genNode(key, 'removed', data1[key]);
     }
-    if (typeof data1[key] === 'object' && typeof data2[key] === 'object') {
+    if (typeof data1[key] === 'object' && data1[key] !== null
+      && typeof data2[key] === 'object' && data2[key] !== null) {
       return { name: key, type: 'list', children: buildTree(data1[key], data2[key]) };
     }
     if (data1[key] === data2[key]) {

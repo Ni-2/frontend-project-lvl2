@@ -1,13 +1,15 @@
 const formatValue = (value, indentsCount) => {
-  if (typeof value !== 'object') return value;
+  if (typeof value !== 'object' || value === null) return value;
   const formattedValues = Object.entries(value).map(([childName, childValue]) => (
     `${'  '.repeat(indentsCount)}  ${childName}: ${formatValue(childValue, indentsCount + 2)}`
+      .trimRight()
   ));
   return `{\n${formattedValues.join('\n')}\n${'  '.repeat(indentsCount - 1)}}`;
 };
 
 const formatNode = (name, value, symbol, indentsCount) => (
   `${'  '.repeat(indentsCount)}${symbol} ${name}: ${formatValue(value, indentsCount + 2)}`
+    .trimRight()
 );
 
 const format = (diff, indentsCount) => {
