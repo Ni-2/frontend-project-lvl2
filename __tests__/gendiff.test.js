@@ -20,6 +20,8 @@ test.each([
   ['file1.ini', 'file2.ini'],
   ['file1.yml', 'file2.yaml'],
 ])('Deep compare', (file1, file2) => {
+  expect(gendiff(getFixturePath(file1), getFixturePath(file2)))
+    .toEqual(expectedDiffStylish);
   expect(gendiff(getFixturePath(file1), getFixturePath(file2), 'stylish'))
     .toEqual(expectedDiffStylish);
   expect(gendiff(getFixturePath(file1), getFixturePath(file2), 'plain'))

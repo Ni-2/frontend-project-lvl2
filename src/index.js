@@ -12,7 +12,7 @@ const getData = (filepath) => {
   return parse(data);
 };
 
-export default (filepath1, filepath2, formatter) => {
+export default (filepath1, filepath2, formatter = 'stylish') => {
   const data1 = getData(filepath1);
   const data2 = getData(filepath2);
   const diff = buildTree(data1, data2);
