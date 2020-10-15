@@ -20,7 +20,7 @@ const parsers = {
   ini: iniParseWithNumbers,
 };
 
-export default (fileType) => {
-  if (_.has(parsers, fileType)) return parsers[fileType];
-  throw new Error(`Invalid type of '${fileType}'.`);
+export default (type) => {
+  if (_.has(parsers, type)) return parsers[type];
+  throw new Error(`Invalid type of '${type}'.`);
 };
